@@ -4,7 +4,7 @@ def is_multiple(x, y):
     return x % y == 0
 
 def is_multiple_list(x, y_list):
-    head, *tail = y_list
+    head, tail = y_list[0], y_list[1:]
     return is_multiple(x, head) if not tail else is_multiple(x, head) or is_multiple_list(x, tail)
 
 def sum_below_limit_mult_in_list(limit, y_list):
