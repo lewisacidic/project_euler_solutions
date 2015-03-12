@@ -1,0 +1,14 @@
+language: python
+python:
+  - "2.7"
+  - "3.4"
+
+# command to install dependencies
+install: 
+  -  pip install coveralls
+# command to run tests
+script: 
+  nosetests problems --with-coverage --cover-package=problems
+
+after_success:
+  coveralls
