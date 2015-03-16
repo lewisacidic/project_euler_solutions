@@ -4,8 +4,9 @@
 # Rich Lewis on 2015-03-13
 #
 
-from .script import is_palindrome, max_palindome_prod_below
+from .script import is_palindrome, possible_number_pairs_below, max_palindome_prod_below
 import random
+import math
 import pytest
 
 class TestIsPalindrome(object):
@@ -24,6 +25,48 @@ class TestIsPalindrome(object):
             i = str(random.randint(1, 1000000))
             j = int(i + i[::-1])
             assert is_palindrome(j)
+
+class TestPossibleNumberPairs(object):
+
+    def test_1(self):
+        """ no positive numbers below 1, so no combinations possible """
+        assert len(list(possible_number_pairs_below(1))) == 0
+
+    def test_2(self):
+        """ only one number below 2 (1), so only pair is 1 and 1"""
+        assert len(list(possible_number_pairs_below(2))) == 1
+
+    def test_2_contents(self):
+        """ test that this is (1, 1)"""
+        assert list(possible_number_pairs_below(2))[0] == (1, 1)
+
+    def test_length(self):
+        """ the number of combinations should be triangle numbers """
+
+        def nCr(n,r):
+            f = math.factorial
+            return f(n) / f(r) / f(n-r)
+
+        for i in range(2, 100):
+            assert len(list(possible_number_pairs_below(i))) == nCr(i, 2)
+
+    def test_has_random_pairs_contained(self):
+
+        """ check to see that the iterator contains 1000 random pairs that it should do."""
+
+        for i in range(1000):
+            random_limit = random.randint(2, 200)
+            random_pair = tuple(sorted((random.randint(1, random_limit - 1), random.randint(1, random_limit - 1)), reverse=True))
+            assert random_pair in list(possible_number_pairs_below(random_limit))
+
+    def test_has_random_pairs_not_contained(self):
+
+        """ check to see that the interator doesn't contain 1000 random pairs that it shouldn't do."""
+
+        for i in range(1000):
+            random_limit = random.randint(2, 200)
+            random_pair = tuple(sorted((random.randint(random_limit, 1000), random.randint(random_limit, 1000)), reverse=True))
+
 
 class TestMaxPalindromeProdBelow(object):
 
