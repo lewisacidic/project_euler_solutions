@@ -4,6 +4,7 @@
 # Rich Lewis on 2015-03-13
 #
 
+from __future__ import division
 from .script import is_palindrome, possible_number_pairs_below, max_palindome_prod_below
 import random
 import math
@@ -45,7 +46,7 @@ class TestPossibleNumberPairs(object):
 
         def nCr(n,r):
             f = math.factorial
-            return f(n) / f(r) / f(n-r)
+            return f(n) // f(r) // f(n-r)
 
         for i in range(2, 100):
             assert len(list(possible_number_pairs_below(i))) == nCr(i, 2)
